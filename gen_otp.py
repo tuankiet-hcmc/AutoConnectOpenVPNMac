@@ -3,6 +3,7 @@ import hmac
 import hashlib
 import base64
 import subprocess
+import os
 
 def get_secret_key(service_name, username):
     try:
@@ -31,8 +32,11 @@ def get_totp_token(secret):
     intervals_no = int(time.time()) // 30
     return get_hotp_token(secret, intervals_no)
 
-username = "username"
-secret_key = get_secret_key("vpn_secret", username)
-secret_pin = get_secret_key("vpn_pin", username)
+username = os.getenv('VPN_USERNAME', 'username')
+vpn_secret = os.getenv('VPN_SECRET', 'vpn_secret')
+vpn_pin = os.getenv('VPN_PIN', 'vpn_pin')
+
+secret_key = get_secret_key(vpn_secret, username)
+secret_pin = get_secret_key(vpn_pin, username)
 otp_code = get_totp_token(secret_key)
 print(f'{secret_pin}{otp_code}')
