@@ -31,8 +31,8 @@ def get_totp_token(secret):
     intervals_no = int(time.time()) // 30
     return get_hotp_token(secret, intervals_no)
 
-username = "kietnt"
-secret_key = get_secret_key("vpn_vng_secret", username)
-secret_pin = get_secret_key("vpn_vng_pin", username)
+username = "username"
+secret_key = get_secret_key("vpn_secret", username)
+secret_pin = get_secret_key("vpn_pin", username)
 otp_code = get_totp_token(secret_key)
 print(f'{secret_pin}{otp_code}')
